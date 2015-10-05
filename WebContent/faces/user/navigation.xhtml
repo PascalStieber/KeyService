@@ -1,0 +1,23 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<div id="contentHeader">Navigation</div>
+
+<!-- 	<div id="navigation">
+		<h:graphicImage style="max-width:100%;max-height:100%;"	value="/ImageService/?id=#{einkauf.offerOfTheDay.id}" />
+	</div> -->
+
+	<br />
+	<p>Hallo <i>#{userservice.getLoggedInUser()}</i> !</p>
+	<p>Sie sind als Besucher angemeldet !</p>
+	
+	<h:form>
+		<ul>
+			<li><h:commandLink action="showAllAuftraege.xhtml" value="Aufträge" /></li>
+			<li><h:commandLink action="showAllAngebote.xhtml" value="Angebote" /></li>
+			<li><h:commandLink action="newAuftrag.xhtml" value="neues Angebot" /></li>
+		</ul>
+	</h:form>	
+</ui:composition>

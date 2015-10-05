@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/faces/main/default.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="content">
+	
+		<div id="navigation">
+			<ui:include src="/faces/user/navigation.xhtml"></ui:include>
+		</div>
+		<div id="searchResult">
+		<div id="contentHeader">Ihre Aufträge:</div>
+			
+			<h:form>
+			<h:selectOneRadio value="#{auftragwizard.doorOption}" >
+				<p>Schildern Sie ihren Vorfall:</p>
+			    <f:selectItem itemValue="1" itemLabel="Tür ist zugefallen und nicht abgeschlossen. Der Schlüssel ist z.Z. nicht vorhanden." />
+			    <f:selectItem itemValue="2" itemLabel="Tür ist abgeschlossen. Der Schlüssel ist abgebrochen." />
+			    <f:selectItem itemValue="3" itemLabel="Tür ist abgeschlossen. Der Schlüssel ist nicht abgebrochen." />
+			    <f:ajax execute="@form" event="click" render="@form" listener="auftragwizard.setDoorOption()" />
+			</h:selectOneRadio>
+			
+			
+			
+			<h:selectOneRadio value="#{auftragwizard.doorDetails}" rendered="#{auftragwizard.doorOption!=0}">
+				<p>Machen Sie Angaben zur Tür und zum Schloss, soweit es geht.</p>
+			    <f:selectItem itemValue="securityDoor" itemLabel="Sicherheitstür" />
+			    <f:selectItem itemValue="woodenDoor" itemLabel="Holztür" />
+			    <f:ajax execute="@form" event="click" render="@form" listener="auftragwizard.setDoorDetails()" />
+			</h:selectOneRadio>
+			
+			
+			<h:selectOneRadio value="#{auftragwizard.inHurry}" rendered="#{not empty auftragwizard.doorDetails}">
+				<p>Sind Sie in Eile? (ggfls. wird ein Expressservice gegen Aufpreis angeboten)</p>
+			    <f:selectItem itemValue="true" itemLabel="Ja, ich nehme zusätzliche Kosten in kauf." />
+			    <f:selectItem itemValue="false" itemLabel="Nein, keine Eile." />
+			    <f:ajax execute="@form" event="click" render="@form" listener="auftragwizard.setInHurry()" />
+			</h:selectOneRadio>
+			
+			<p>Geben Sie ihre Adresse ein:</p> 
+			<h:inputText id="name" value="#{auftragwizard.person.vorname}" label="Name"></h:inputText><br/>
+			<p:watermark for="name" value="Name" />
+			<!--<h:inputText value="#{auftragwizard.adresse.strasse}" label="Strasse"></h:inputText>
+			<h:inputText value="#{auftragwizard.adresse.hausnummer}" label="Hausnummer"></h:inputText><br/>
+			<h:inputText value="#{auftragwizard.adresse.plz}" label="PLZ"></h:inputText>
+			<h:inputText value="#{auftragwizard.adresse.stadt}" label="Stadt"></h:inputText>
+			<h:inputText value="#{auftragwizard.adresse.handynr}" label="Handynummer"></h:inputText>-->
+			
+			
+			<h:outputText rendered="#{not empty auftragwizard.doorDetails}" value="#{auftragwizard.doorDetails}" />
+			<h:outputText rendered="#{auftragwizard.doorOption!=0}" value="#{auftragwizard.doorOption}" />
+			</h:form>
+		</div>
+		
+	</ui:define>
+</ui:composition>

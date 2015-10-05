@@ -1,0 +1,20 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<div id="contentHeader">Login</div>
+
+	<!-- 	<div id="navigation">
+		<h:graphicImage style="max-width:100%;max-height:100%;"	value="/ImageService/?id=#{einkauf.offerOfTheDay.id}" />
+	</div> -->
+
+	<br />
+
+	<h:form>
+		<h:commandButton action="#{keyservice.getLoginLink()}" value="Log in" />
+		<h:commandButton action="#{keyservice.getRegisterLink()}" value="Registrieren" /> <br></br>
+		<h:commandButton action="#{keyservice.getAdminLink()}"	value="Admin Bereich" />
+		<h:commandButton action="#{initApplication.init()}"	value="Initiere Application" />
+	</h:form>
+</ui:composition>
