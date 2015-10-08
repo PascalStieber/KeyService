@@ -18,7 +18,7 @@ import de.keyservice.entity.Person;
 public class KeyService {
 
     @Inject
-    PersonController pc = null;
+    PersonController pc;
     @Resource
     private SessionContext sessionContext;
 
@@ -37,18 +37,18 @@ public class KeyService {
 	return "/faces/admin/index.xhtml?faces-redirect=true";
     }
 
-    public String getLoginLink() {
-	return "/faces/user/index.xhtml?faces-redirect=true";
+    public String getKundenLink() {
+	return "/faces/kunde/index.xhtml?faces-redirect=true";
+    }
+
+    public String getServiceLink() {
+	return "/faces/service/index.xhtml?faces-redirect=true";
     }
 
     public String getRegisterLink() {
 	return "/faces/user/index.xhtml?faces-redirect=true";
     }
-
-    public String getKeyServiceLink() {
-	return "/faces/keyservice/index.xhtml?faces-redirect=true";
-    }
-
+    
     public Person getPerson() {
 	return person;
     }

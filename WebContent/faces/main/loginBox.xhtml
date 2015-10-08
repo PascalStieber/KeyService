@@ -12,9 +12,10 @@
 	<br />
 
 	<h:form>
-		<h:commandButton action="#{keyservice.getLoginLink()}" value="Log in" />
-		<h:commandButton action="#{keyservice.getRegisterLink()}" value="Registrieren" /> <br></br>
-		<h:commandButton action="#{keyservice.getAdminLink()}"	value="Admin Bereich" />
+		<h:commandButton action="#{keyservice.getKundenLink()}" value="Kunden Bereich" /><br/>
+		<h:commandButton action="#{keyservice.getAdminLink()}"	value="Admin Bereich" /><br/>
+		<h:commandButton action="#{keyservice.getServiceLink()}"	value="Service Bereich" /><br/><br/>
+		<h:commandButton action="#{keyservice.getRegisterLink()}" value="Registrieren" /> <br/>
 		<h:commandButton action="#{initApplication.init()}"	value="Initiere Application" />
 	</h:form>
 </ui:composition>

@@ -1,7 +1,16 @@
 package de.keyservice.entity;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.persistence.Version;
 
 @Entity
 @Table(name = "Adresse")
@@ -13,7 +22,27 @@ public class Adresse implements Serializable {
     }
 
     @Id
+    @GeneratedValue
     private long id;
+    private String strasse;
+    private String plz;
+    private String hausnummer;
+    private String ort;
+    @Version
+    private int versionNr;
+    @Transient
+    private boolean editable;
+    
+    @ManyToMany(mappedBy="adressen")
+    private Set<Person> personen = new HashSet<Person>();
+
+    public void addPerson(Person pPerson) {
+	this.personen.add(pPerson);
+    }
+    
+    public Set<Person> getPersonen() {
+	return this.personen;
+    }
 
     public long getId() {
 	return id;
@@ -21,6 +50,46 @@ public class Adresse implements Serializable {
 
     public void setId(long id) {
 	this.id = id;
+    }
+
+    public String getStrasse() {
+	return strasse;
+    }
+
+    public void setStrasse(String strasse) {
+	this.strasse = strasse;
+    }
+
+    public String getPlz() {
+	return plz;
+    }
+
+    public void setPlz(String plz) {
+	this.plz = plz;
+    }
+
+    public String getHausnummer() {
+	return hausnummer;
+    }
+
+    public void setHausnummer(String hausnummer) {
+	this.hausnummer = hausnummer;
+    }
+
+    public String getOrt() {
+	return ort;
+    }
+
+    public void setOrt(String ort) {
+	this.ort = ort;
+    }
+
+    public boolean isEditable() {
+	return editable;
+    }
+
+    public void setEditable(boolean editable) {
+	this.editable = editable;
     }
 
 }

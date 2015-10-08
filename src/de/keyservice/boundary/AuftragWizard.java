@@ -1,5 +1,8 @@
 package de.keyservice.boundary;
 
+import java.util.List;
+
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateful;
@@ -7,8 +10,12 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import de.keyservice.controller.AuftragController;
 import de.keyservice.controller.PersonController;
+import de.keyservice.entity.Adresse;
+import de.keyservice.entity.Auftrag;
 import de.keyservice.entity.Person;
+import de.keyservice.jms.VertragTopicSender;
 
 @Stateful
 @SessionScoped
@@ -16,36 +23,73 @@ import de.keyservice.entity.Person;
 public class AuftragWizard {
 
     @Inject
-    PersonController pc = null;
+    PersonController personControl;
+    @Inject
+    AuftragController auftragControl;
+    @Inject 
+    VertragTopicSender vertragTopicSender;
+    
+    @Resource
+    private SessionContext sessionContext;
 
     Person person = new Person();
-    
+    Adresse adresse = new Adresse();
+    Auftrag auftrag = new Auftrag();
 
-    private int wizardStatusNR = 0;
-    private boolean inHurry = false;
-    private String doorDetails = "";
-    private int doorOption = 0;
+    @PostConstruct
+    private void init() {
+	String loggedInUser = sessionContext.getCallerPrincipal().getName();
+	List<Person> lLoggedInPersonen = personControl.findPersonByEmail(loggedInUser);
+	for (Person lPerson : lLoggedInPersonen) {
+	    System.out.println(lPerson.getVorname());
+	    this.person = lPerson;
+	    for (Adresse lAdresse : lPerson.getAdressen()) {
+		this.adresse = lAdresse;
+	    }
+	}
+    }
+
+    public String sendeAuftrag(){
+	vertragTopicSender.sendAuftrag(auftrag);	
+	speicherAuftrag();
+	return "/faces/kunde/showAllAuftraege.xhtml?faces-redirect=true";
+    }
     
+    public void speicherAuftrag(){
+	auftrag.setPerson(person);
+	person.addAdresse(adresse);
+//	auftragControl.saveAuftrag(auftrag);
+	person.addAuftrag(auftrag);
+	adresse.addPerson(person);
+	
+	personControl.updatePerson(person);
+    }
     
-    public String getDoorDetails() {
-        return doorDetails;
+    public Auftrag getAuftrag() {
+	return auftrag;
     }
-    public void setDoorDetails(String doorDetails) {
-	System.out.println(doorDetails);
-        this.doorDetails = doorDetails;
+
+    public void setAuftrag(Auftrag auftrag) {
+	this.auftrag = auftrag;
+    }
+
+    public String editAdresse(Adresse pAdresse) {
+	pAdresse.setEditable(true);
+	return null;
     }
     
-    public boolean isInHurry() {
-        return inHurry;
+    public String neueAdresse() {
+	adresse = new Adresse();
+	adresse.setEditable(true);
+	return null;
     }
-    public void setInHurry(boolean inHurry) {
-        this.inHurry = inHurry;
+
+    public Adresse getAdresse() {
+	return adresse;
     }
-    public int getDoorOption() {
-        return doorOption;
-    }
-    public void setDoorOption(int doorOption) {	
-        this.doorOption = doorOption;
+
+    public void setAdresse(Adresse adresse) {
+	this.adresse = adresse;
     }
 
     public Person getPerson() {
@@ -55,12 +99,5 @@ public class AuftragWizard {
     public void setPerson(Person person) {
 	this.person = person;
     }
-    
-    public void setActuallWizardStatus(){
-	wizardStatusNR+=wizardStatusNR;
-    }
-    
-    public int getActuallWizardStatus(){
-	return wizardStatusNR;
-    }
+
 }
