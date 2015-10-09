@@ -41,7 +41,6 @@ public class AuftragWizard {
 	String loggedInUser = sessionContext.getCallerPrincipal().getName();
 	List<Person> lLoggedInPersonen = personControl.findPersonByEmail(loggedInUser);
 	for (Person lPerson : lLoggedInPersonen) {
-	    System.out.println(lPerson.getVorname());
 	    this.person = lPerson;
 	    for (Adresse lAdresse : lPerson.getAdressen()) {
 		this.adresse = lAdresse;
@@ -58,10 +57,8 @@ public class AuftragWizard {
     public void speicherAuftrag(){
 	auftrag.setPerson(person);
 	person.addAdresse(adresse);
-//	auftragControl.saveAuftrag(auftrag);
 	person.addAuftrag(auftrag);
 	adresse.addPerson(person);
-	
 	personControl.updatePerson(person);
     }
     

@@ -36,28 +36,17 @@ public class KundenService {
 	String loggedInUser = sessionContext.getCallerPrincipal().getName();
 	List<Person> lLoggedInPersonen = personControl.findPersonByEmail(loggedInUser);
 	for (Person lPerson : lLoggedInPersonen) {
-	    System.out.println("!"+lPerson.getVorname());
 	    this.person = lPerson;
 	    for (Adresse lAdresse : lPerson.getAdressen()) {
 		this.adresse = lAdresse;
-		System.out.println("!Adressen" + adresse.getStrasse());
 	    }
-	    for (Auftrag lAuftrag : lPerson.getAuftraege()) {
-		System.out.println("=" + lAuftrag.getDoorDetails());
-	    }
-	    for (Angebot lAngebot : lPerson.getAngebote()) {
-		System.out.println("=!" + lAngebot.getDoorDetails());
-	    }
-	      
+
 	    this.auftraege = lPerson.getAuftraege();
-	    System.out.println(">>>die scheisse ist nicht leer" + auftraege.isEmpty());
-	    
 	}
     }
     
     public String getLoggedInUser(){
 	String loggedInUser = sessionContext.getCallerPrincipal().getName();
-	System.out.println(loggedInUser);
 	return loggedInUser;
     }
 

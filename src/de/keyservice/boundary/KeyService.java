@@ -24,9 +24,6 @@ public class KeyService {
 
     Person person = new Person();
 
-    
-    
-    
     public String getAdminLink() {
 //	Anmelden, Abmelden, ...
 // 	LoginContext lLoginContext = new LoginContext("adminDomain");

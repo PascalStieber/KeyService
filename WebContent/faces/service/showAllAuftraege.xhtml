@@ -9,16 +9,16 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 	<ui:define name="content">
-		<f:event type="preRenderView" listener="#{kundenservice.init()}" />
+		<f:event type="preRenderView" listener="#{dienstleisterservice.init()}" />
 		<div id="navigation">
-			<ui:include src="/faces/kunde/navigation.xhtml"></ui:include>
+			<ui:include src="/faces/service/navigation.xhtml"></ui:include>
 		</div>
 
 		<div id="searchResult">
 			<div id="contentHeader">Erstellen Sie einen neuen Auftrag:</div>
 
 			<h:form>
-				<h:dataTable value="#{kundenservice.auftraege}" var="auftrag"
+				<h:dataTable value="#{dienstleisterservice.auftraege}" var="auftrag"
 					styleClass="order-table" headerClass="order-table-header"
 					rowClasses="order-table-odd-row,order-table-even-row">
 
