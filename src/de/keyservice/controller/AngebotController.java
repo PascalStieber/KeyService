@@ -30,11 +30,11 @@ public class AngebotController implements Serializable {
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public Auftrag updatePerson(Auftrag pAuftrag) {
-	entityManager.merge(pAuftrag);
+    public Angebot updateAngebot(Angebot pAngebot) {
+	entityManager.merge(pAngebot);
 	entityManager.flush();
-	entityManager.refresh(pAuftrag);
-	return pAuftrag;
+	entityManager.refresh(pAngebot);
+	return pAngebot;
     }
 
     public Angebot findAngebotByID(Long id) {

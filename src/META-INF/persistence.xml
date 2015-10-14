@@ -10,6 +10,7 @@
 		<class>de.keyservice.entity.Person</class>
 		<class>de.keyservice.entity.Angebot</class>
 		<class>de.keyservice.entity.Auftrag</class>
+		<class>de.keyservice.entity.Posten</class>
 		<shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
 
 		<properties>

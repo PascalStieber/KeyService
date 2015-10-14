@@ -1,0 +1,35 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+
+	<h:panelGrid id="auftragPanel" columns="2" border="0">
+		<f:facet name="header">
+			<h:outputText value="Auftrag:" />
+		</f:facet>
+
+		<h:outputLabel value="Auftragsnr" />
+		#{dienstleisterservice.selectedAuftrag.id}
+
+		<h:outputLabel value="Art d. Türe" />
+		#{dienstleisterservice.selectedAuftrag.doorOption}
+
+		<h:outputLabel value="Türschloss" />
+		#{dienstleisterservice.selectedAuftrag.doorDetails}
+
+		<h:outputLabel value="Express Service" />
+		#{dienstleisterservice.selectedAuftrag.inHurry}
+		
+		<h:outputLabel value="Datum" />
+		<h:outputText value="#{dienstleisterservice.selectedAuftrag.datum}">
+			<f:convertDateTime pattern="dd.MM.yyyy HH:mm" />
+		</h:outputText>
+
+		<f:facet name="footer">
+			<!-- <h:panelGroup style="display:block; text-align:center">
+		<h:commandButton id="Ok" value="OK" />
+		</h:panelGroup> -->
+		</f:facet>
+	</h:panelGrid>
+</ui:composition>

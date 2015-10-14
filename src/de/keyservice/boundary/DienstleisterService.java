@@ -1,22 +1,18 @@
 package de.keyservice.boundary;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.ejb.AfterCompletion;
 import javax.ejb.Stateful;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Observes;
-import javax.enterprise.event.TransactionPhase;
 import javax.inject.Inject;
 import javax.inject.Named;
-
-import com.sun.xml.internal.bind.XmlAccessorFactory;
 
 import de.keyservice.entity.Auftrag;
 import de.keyservice.entity.AuftragEvent;
 import de.keyservice.jms.VertragTopicConsumerSynchron;
-import java.io.Serializable;
 
 @Stateful
 @Named("dienstleisterservice")
@@ -29,13 +25,19 @@ public class DienstleisterService implements Serializable {
     VertragTopicConsumerSynchron vertragTopicConsumerSynchron;
 
     private static Set<Auftrag> auftraege = new HashSet<Auftrag>();
-
+    private Auftrag selectedAuftrag;
+    
     public void init() {
     }
-
-    public void receiveMessages() {
-	auftraege = vertragTopicConsumerSynchron.getAuftraege();
+    
+    public String erstelleAngebot(Auftrag pAuftrag){
+	this.setSelectedAuftrag(pAuftrag);
+	return "/faces/service/newAngebot.xhtml?faces-redirect=true&auftragid="+pAuftrag.getId();
     }
+
+//    public void receiveMessages() {
+//	auftraege = vertragTopicConsumerSynchron.getAuftraege();
+//    }
 
     public void onReceiveNewAuftrag(@Observes AuftragEvent pAuftragEvent) {
 	Auftrag lAuftrag = pAuftragEvent.getAuftrag();
@@ -53,6 +55,14 @@ public class DienstleisterService implements Serializable {
 
     public void setAuftraege(Set<Auftrag> auftraege) {
 	DienstleisterService.auftraege = auftraege;
+    }
+
+    public Auftrag getSelectedAuftrag() {
+	return selectedAuftrag;
+    }
+
+    public void setSelectedAuftrag(Auftrag selectedAuftrag) {
+	this.selectedAuftrag = selectedAuftrag;
     }
 
 }

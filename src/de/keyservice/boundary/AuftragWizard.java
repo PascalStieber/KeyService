@@ -29,18 +29,18 @@ public class AuftragWizard {
     PersonController personControl;
     @Inject
     AuftragController auftragControl;
-    @Inject 
+    @Inject
     VertragTopicSender vertragTopicSender;
     @Inject
     Event<AuftragEvent> auftragEvent;
-    
+
     @Resource
     private SessionContext sessionContext;
 
     Person person = new Person();
     Adresse adresse = new Adresse();
     Auftrag auftrag = new Auftrag();
-    
+
     String loggedInUser;
 
     @PostConstruct
@@ -55,20 +55,19 @@ public class AuftragWizard {
 	}
     }
 
-    public String sendeAuftrag(){
+    public String sendeAuftrag() {
 	speicherAuftrag();
 	Auftrag lAuftrag = getLatestAuftrag();
-//	vertragTopicSender.sendAuftrag(lAuftrag);
+	// vertragTopicSender.sendAuftrag(lAuftrag);
 	auftragEvent.fire(new AuftragEvent(lAuftrag));
 	return "/faces/kunde/showAllAuftraege.xhtml?faces-redirect=true";
     }
-    
-    
-    public Auftrag getLatestAuftrag(){
+
+    public Auftrag getLatestAuftrag() {
 	return auftragControl.getLatestAuftrag(this.person);
     }
-    
-    public void speicherAuftrag(){
+
+    public void speicherAuftrag() {
 	auftrag.setDatum(new Date());
 	auftrag.setPerson(person);
 	person.addAdresse(adresse);
@@ -78,7 +77,7 @@ public class AuftragWizard {
 	adresse.addPerson(person);
 	personControl.updatePerson(person);
     }
-    
+
     public Auftrag getAuftrag() {
 	return auftrag;
     }
@@ -91,7 +90,7 @@ public class AuftragWizard {
 	pAdresse.setEditable(true);
 	return null;
     }
-    
+
     public String neueAdresse() {
 	adresse = new Adresse();
 	adresse.setEditable(true);

@@ -21,9 +21,6 @@ public class Adresse implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Adresse() {
-    }
-
     @Id
     @GeneratedValue
     private long id;

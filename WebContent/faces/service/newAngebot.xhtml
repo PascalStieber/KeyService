@@ -1,26 +1,49 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
           "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 <ui:composition template="/faces/main/default.xhtml"
 	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
-
 	<ui:define name="content">
-	
+		<f:metadata>
+			<f:viewParam id="auftragid" name="auftragid" value="#{angebotwizard.auftragID}" required="true"/>
+			<!-- <f:viewAction action="#{angebotwizard.init}"/> -->
+		</f:metadata>
+
 		<div id="navigation">
 			<ui:include src="/faces/kunde/navigation.xhtml"></ui:include>
 		</div>
 		<div id="searchResult">
-		<div id="contentHeader">Ihre Aufträge:</div>
+			<div id="contentHeader">Erstellen Sie ein neues Angebot:</div>
+			
+			<ui:include src="/faces/service/auftrag.xhtml" />
 			
 			<h:form>
+				<h:dataTable id="angebot"
+					value="#{angebotwizard.posten}" var="posten"
+					styleClass="order-table" headerClass="order-table-header"
+					rowClasses="order-table-odd-row,order-table-even-row">
+					<h:column>
+						<f:facet name="header">Bezeichnung</f:facet>
+	    				<h:inputText value="#{posten.bezeichnung}" />
+	    			</h:column>
+
+					<h:column>
+						<f:facet name="header">Betrag</f:facet>
+						<h:inputText value="#{posten.betrag}" />						
+					</h:column>
+
+					<h:column>
+						<f:facet name="header">Aktionen</f:facet>
+						<h:commandButton action="#{angebotwizard.addPosten()}" value="Posten hinzuf." />
+					</h:column>
+				</h:dataTable>
 			
+			<br/><h:commandButton action="#{angebotwizard.sendeAngebot}" value="Angebot versenden" />
 			</h:form>
 		</div>
-		
 	</ui:define>
 </ui:composition>

@@ -1,13 +1,18 @@
 package de.keyservice.entity;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.Version;
@@ -17,9 +22,6 @@ import javax.persistence.Version;
 public class Angebot implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    public Angebot() {
-    }
 
     @Id
     @GeneratedValue
@@ -34,8 +36,23 @@ public class Angebot implements Serializable {
     private boolean editable;
     @ManyToOne
     private Person person;
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="angebot", fetch = FetchType.LAZY)
+    private Set<Posten> posten = new HashSet<Posten>();
+    @ManyToOne
+    private Person auftrag;
     
-    
+    public Person getAuftrag() {
+        return auftrag;
+    }
+    public void setAuftrag(Person auftrag) {
+        this.auftrag = auftrag;
+    }
+    public Set<Posten> getPosten() {
+        return posten;
+    }
+    public void addPosten(Posten pPosten) {
+        this.posten.add(pPosten);
+    }
     public long getId() {
         return id;
     }

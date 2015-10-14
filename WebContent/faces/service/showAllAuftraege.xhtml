@@ -1,7 +1,6 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
           "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 <ui:composition template="/faces/main/default.xhtml"
 	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
@@ -14,15 +13,11 @@
 		<div id="navigation">
 			<ui:include src="/faces/service/navigation.xhtml"></ui:include>
 		</div>
-
 		<div id="searchResult">
 			<div id="contentHeader">Erstellen Sie einen neuen Auftrag:</div>
-
 			<h:form>
-
-
 				<!-- <h:commandButton value="Abrufen!" onclick="receiveNewMessages()" /> -->
-				<p:poll interval="3" update="auftragliste" />
+				<p:poll interval="5" update="auftragliste" />
 
 				<h:dataTable id="auftragliste"
 					value="#{dienstleisterservice.auftraege}" var="auftrag"
@@ -32,32 +27,37 @@
 					<h:column>
 						<f:facet name="header">ID</f:facet>
 	    			#{auftrag.id}
-	    		</h:column>
+	    			</h:column>
 					<h:column>
 						<f:facet name="header">Art d. Türe</f:facet>
 	    			#{auftrag.doorOption}
-	    		</h:column>
+	    			</h:column>
 					<h:column>
 						<f:facet name="header">Türschloss</f:facet>
 	    			#{auftrag.doorDetails}
-	    		</h:column>
+	    			</h:column>
 					<h:column>
 						<f:facet name="header">Express Service</f:facet>
 	    			#{auftrag.inHurry}
-	    		</h:column>
+	    			</h:column>
 					<h:column>
 						<f:facet name="header">Datum</f:facet>
 						<h:outputText value="#{auftrag.datum}">
-                            <f:convertDateTime pattern="dd.MM.yyyy HH:mm" />
-                        </h:outputText>
-	    		</h:column>
-	    		
-
-
+							<f:convertDateTime pattern="dd.MM.yyyy HH:mm" />
+						</h:outputText>
+					</h:column>
+					<h:column>
+						<f:facet name="header">Ort</f:facet>
+						#{auftrag.adresse.strasse} #{auftrag.adresse.hausnummer},<br /> #{auftrag.adresse.plz} #{auftrag.adresse.ort}  
+					</h:column>
+					<h:column>
+						<f:facet name="header">Aktionen</f:facet>
+						<h:commandButton
+							action="#{dienstleisterservice.erstelleAngebot(auftrag)}"
+							value="Angebot erstellen" />
+					</h:column>
 				</h:dataTable>
 			</h:form>
-
 		</div>
-
 	</ui:define>
 </ui:composition>

@@ -1,6 +1,7 @@
 package de.keyservice.controller;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
@@ -36,4 +37,8 @@ public class AuftragController implements Serializable {
 	return query.getResultList().get(0);
     }
 
+    public List<Auftrag> findAllAuftraege(){
+	TypedQuery<Auftrag> query = entityManager.createNamedQuery("Auftrag.findAllAuftraege", Auftrag.class);
+	return query.getResultList();
+    }
 }
