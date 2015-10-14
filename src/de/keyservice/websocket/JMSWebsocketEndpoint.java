@@ -1,4 +1,4 @@
-package de.keyservice.jms;
+package de.keyservice.websocket;
 
 import java.io.IOException;
 import java.util.HashSet;
