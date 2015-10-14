@@ -1,6 +1,5 @@
 package de.keyservice.boundary;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -59,7 +58,7 @@ public class AuftragWizard {
     public String sendeAuftrag(){
 	speicherAuftrag();
 	Auftrag lAuftrag = getLatestAuftrag();
-	vertragTopicSender.sendAuftrag(lAuftrag);
+//	vertragTopicSender.sendAuftrag(lAuftrag);
 	auftragEvent.fire(new AuftragEvent(lAuftrag));
 	return "/faces/kunde/showAllAuftraege.xhtml?faces-redirect=true";
     }
@@ -73,6 +72,8 @@ public class AuftragWizard {
 	auftrag.setDatum(new Date());
 	auftrag.setPerson(person);
 	person.addAdresse(adresse);
+	adresse.addAuftrag(auftrag);
+	auftrag.setAdresse(adresse);
 	person.addAuftrag(auftrag);
 	adresse.addPerson(person);
 	personControl.updatePerson(person);

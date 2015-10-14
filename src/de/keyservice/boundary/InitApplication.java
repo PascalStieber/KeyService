@@ -74,7 +74,7 @@ public class InitApplication {
 	
 	lPerson1.addAdresse(lAdresse2);
 	lPerson1.addAdresse(lAdresse1);
-//	personControl.savePerson(lPerson1);
+	personControl.updatePerson(lPerson1);
 	
 	lAdresse1.addPerson(lPerson2);
 	lAdresse1.addPerson(lPerson1);

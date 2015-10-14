@@ -4,10 +4,13 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.Version;
@@ -35,7 +38,19 @@ public class Adresse implements Serializable {
     
     @ManyToMany(mappedBy="adressen")
     private Set<Person> personen = new HashSet<Person>();
-
+   
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="adresse", fetch = FetchType.LAZY)
+    private Set<Auftrag> auftraege = new HashSet<Auftrag>();
+    
+    public void addAuftrag(Auftrag pAuftrag){
+	this.auftraege.add(pAuftrag);
+    }
+    
+    public Set<Auftrag> getAuftraege(){
+	return this.auftraege;
+    }
+    
+    
     public void addPerson(Person pPerson) {
 	this.personen.add(pPerson);
     }

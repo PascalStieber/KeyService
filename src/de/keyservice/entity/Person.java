@@ -69,16 +69,16 @@ public class Person implements Serializable {
 	this.auftraege.add(pAuftrag);
     }
     
+    public Set<Auftrag> getAuftraege(){
+	return this.auftraege;
+    }
+    
     public void addAngebot(Angebot pAngebot){
 	this.angebote.add(pAngebot);
     }
     
     public Set<Angebot> getAngebote(){
 	return this.angebote;
-    }
-    
-    public Set<Auftrag> getAuftraege(){
-	return this.auftraege;
     }
     
     public String getUserRole() {

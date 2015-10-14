@@ -37,6 +37,16 @@ public class Auftrag implements Cloneable, Serializable {
     private boolean editable;
     @ManyToOne
     private Person person;
+    @ManyToOne
+    private Adresse adresse;
+    
+    public Adresse getAdresse() {
+        return adresse;
+    }
+
+    public void setAdresse(Adresse adresse) {
+        this.adresse = adresse;
+    }
 
     public long getId() {
 	return id;
