@@ -9,7 +9,8 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 	<ui:define name="content">
-		<f:event type="preRenderView" listener="#{dienstleisterservice.init()}" />
+		<f:event type="preRenderView"
+			listener="#{dienstleisterservice.init()}" />
 		<div id="navigation">
 			<ui:include src="/faces/service/navigation.xhtml"></ui:include>
 		</div>
@@ -18,7 +19,13 @@
 			<div id="contentHeader">Erstellen Sie einen neuen Auftrag:</div>
 
 			<h:form>
-				<h:dataTable value="#{dienstleisterservice.auftraege}" var="auftrag"
+
+
+				<h:commandButton value="Abrufen!" onclick="receiveNewMessages()" />
+				<p:poll interval="3" update="auftragliste" />
+
+				<h:dataTable id="auftragliste"
+					value="#{dienstleisterservice.auftraege}" var="auftrag"
 					styleClass="order-table" headerClass="order-table-header"
 					rowClasses="order-table-odd-row,order-table-even-row">
 
@@ -38,6 +45,15 @@
 						<f:facet name="header">Express Service</f:facet>
 	    			#{auftrag.inHurry}
 	    		</h:column>
+					<h:column>
+						<f:facet name="header">Datum</f:facet>
+						<h:outputText value="#{auftrag.datum}">
+                            <f:convertDateTime pattern="dd.MM.yyyy HH:mm" />
+                        </h:outputText>
+	    		</h:column>
+	    		
+
+
 				</h:dataTable>
 			</h:form>
 

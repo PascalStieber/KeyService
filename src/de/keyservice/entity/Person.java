@@ -21,9 +21,6 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.Version;
 
-import jdk.nashorn.internal.objects.annotations.Getter;
-import jdk.nashorn.internal.objects.annotations.Setter;
-
 
 @NamedQueries({
 	@NamedQuery(name = "Person.findAll", query = "SELECT p FROM Person p", hints = {@QueryHint(name = "org.hibernate.cacheable", value = "true") }),

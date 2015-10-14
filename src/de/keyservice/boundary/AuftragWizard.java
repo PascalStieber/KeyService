@@ -1,5 +1,7 @@
 package de.keyservice.boundary;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -7,6 +9,7 @@ import javax.annotation.Resource;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateful;
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -14,6 +17,7 @@ import de.keyservice.controller.AuftragController;
 import de.keyservice.controller.PersonController;
 import de.keyservice.entity.Adresse;
 import de.keyservice.entity.Auftrag;
+import de.keyservice.entity.AuftragEvent;
 import de.keyservice.entity.Person;
 import de.keyservice.jms.VertragTopicSender;
 
@@ -28,6 +32,8 @@ public class AuftragWizard {
     AuftragController auftragControl;
     @Inject 
     VertragTopicSender vertragTopicSender;
+    @Inject
+    Event<AuftragEvent> auftragEvent;
     
     @Resource
     private SessionContext sessionContext;
@@ -35,10 +41,12 @@ public class AuftragWizard {
     Person person = new Person();
     Adresse adresse = new Adresse();
     Auftrag auftrag = new Auftrag();
+    
+    String loggedInUser;
 
     @PostConstruct
     private void init() {
-	String loggedInUser = sessionContext.getCallerPrincipal().getName();
+	loggedInUser = sessionContext.getCallerPrincipal().getName();
 	List<Person> lLoggedInPersonen = personControl.findPersonByEmail(loggedInUser);
 	for (Person lPerson : lLoggedInPersonen) {
 	    this.person = lPerson;
@@ -49,12 +57,21 @@ public class AuftragWizard {
     }
 
     public String sendeAuftrag(){
-	vertragTopicSender.sendAuftrag(auftrag);	
 	speicherAuftrag();
+	Auftrag lAuftrag = getLatestAuftrag();
+	vertragTopicSender.sendAuftrag(lAuftrag);
+	auftragEvent.fire(new AuftragEvent(lAuftrag));
 	return "/faces/kunde/showAllAuftraege.xhtml?faces-redirect=true";
     }
     
+    
+    public Auftrag getLatestAuftrag(){
+	return auftragControl.getLatestAuftrag(this.person);
+    }
+    
+    
     public void speicherAuftrag(){
+	auftrag.setDatum(new Date());
 	auftrag.setPerson(person);
 	person.addAdresse(adresse);
 	person.addAuftrag(auftrag);

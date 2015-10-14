@@ -45,7 +45,7 @@ public class InitApplication {
 	lPerson1.setEmailAdresse("pascal.stieber.ps@googlemail.com");
 	lPerson1.setPasswort("hallowelt");
 	lPerson1.setBild(null);
-	lPerson1.setUserRole("AdminUser");
+	lPerson1.setUserRole("CustomerUser");
 	personControl.savePerson(lPerson1);
 	
 	

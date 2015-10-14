@@ -43,7 +43,7 @@ public class PersonController {
 	// TODO Auto-generated method stub
 	return null;
     }
-
+    
     public List<Person> findPersonByEmail(String pEmail) {
 	entityManager.clear();
 	TypedQuery<Person> query = entityManager.createNamedQuery("Person.findByEmail", Person.class);

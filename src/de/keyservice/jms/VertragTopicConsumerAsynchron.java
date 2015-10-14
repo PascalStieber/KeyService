@@ -8,31 +8,34 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 
+import org.jboss.security.annotation.SecurityDomain;
+
 import de.keyservice.entity.Auftrag;
+import de.keyservice.entity.AuftragEvent;
 
 @MessageDriven(activationConfig = { @ActivationConfigProperty(propertyName = "destination", propertyValue = "java:/jms/topic/VertragTopic"),
-//	@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Topic"),
-	@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Topic")})
-//	@ActivationConfigProperty(propertyName = "messageSelector",
-	// propertyValue = "AuftragID BETWEEN 0 AND 5")
-//	propertyValue = "AuftragID > 5") })
+	@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Topic") })
+@SecurityDomain("ServiceUser")
 public class VertragTopicConsumerAsynchron implements MessageListener {
 
     @Inject
-    private Event<Auftrag> auftragEvent;
-    
+    private Event<AuftragEvent> auftragEvent;
+    @Inject
+    private Event<Auftrag> eve;
+
     @Override
     public void onMessage(Message message) {
-	System.out.println("Message wurde empfangen....");
+	
 	try {
 	    Auftrag auftrag = new Auftrag();
 	    auftrag = message.getBody(Auftrag.class);
-	    auftragEvent.fire(auftrag);
-	    
+	    System.out.println("Message wurde asynchron empfangen...." + auftrag.getDoorDetails());
+	    auftragEvent.fire(new AuftragEvent(auftrag));
+	    eve.fire(auftrag);
+
 	} catch (JMSException e) {
 	    e.printStackTrace();
 	}
     }
 
-    
 }

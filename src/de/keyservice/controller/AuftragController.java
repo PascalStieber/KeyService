@@ -6,29 +6,30 @@ import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
+import javax.persistence.TypedQuery;
 
-import de.keyservice.entity.Angebot;
 import de.keyservice.entity.Auftrag;
-
+import de.keyservice.entity.Person;
 
 @Stateful
 @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 public class AuftragController {
 
+    @PersistenceContext(type = PersistenceContextType.EXTENDED, unitName = "ExampleDS")
+    private EntityManager entityManager;
 
-	@PersistenceContext(type=PersistenceContextType.EXTENDED, unitName="ExampleDS")
-	private EntityManager entityManager;
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public Auftrag saveAuftrag(Auftrag pAuftrag) {
+	entityManager.persist(pAuftrag);
+	entityManager.flush();
+	entityManager.refresh(pAuftrag);
+	return pAuftrag;
+    }
 
-	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-	public Auftrag saveAuftrag(Auftrag pAuftrag){ 
-		entityManager.persist(pAuftrag);
-		entityManager.flush();
-		entityManager.refresh(pAuftrag);
-		return pAuftrag;
-	}
+    public Auftrag getLatestAuftrag(Person pPerson) {
+	TypedQuery<Auftrag> query = entityManager.createNamedQuery("Auftrag.findLatestAuftrag", Auftrag.class);
+	query.setParameter("person", pPerson);
+	return query.getResultList().get(0);
+    }
 
-	public Angebot findAngebotByID(Long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

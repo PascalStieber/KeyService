@@ -50,6 +50,10 @@ public class KundenService {
 	return loggedInUser;
     }
 
+    public String getLoggedInRole(){
+	String loggedInUser = sessionContext.getCallerPrincipal().getName();
+	return loggedInUser;
+    }
     
     public Person getPerson() {
         return person;
