@@ -1,5 +1,6 @@
 package de.keyservice.boundary;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 
@@ -20,8 +21,9 @@ import de.keyservice.entity.Person;
 @Stateful
 @SessionScoped
 @Named("kundenservice")
-public class KundenService {
+public class KundenService implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     @Resource
     private SessionContext sessionContext;
     @Inject

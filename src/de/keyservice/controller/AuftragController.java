@@ -1,5 +1,7 @@
 package de.keyservice.controller;
 
+import java.io.Serializable;
+
 import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -13,7 +15,9 @@ import de.keyservice.entity.Person;
 
 @Stateful
 @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-public class AuftragController {
+public class AuftragController implements Serializable {
+
+    private static final long serialVersionUID = 6108542376443771951L;
 
     @PersistenceContext(type = PersistenceContextType.EXTENDED, unitName = "ExampleDS")
     private EntityManager entityManager;

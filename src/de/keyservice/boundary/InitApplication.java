@@ -1,7 +1,9 @@
 package de.keyservice.boundary;
 
-import javax.ejb.Stateful;
-import javax.enterprise.context.SessionScoped;
+import javax.annotation.PostConstruct;
+import javax.ejb.DependsOn;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -12,8 +14,9 @@ import de.keyservice.entity.Adresse;
 import de.keyservice.entity.Angebot;
 import de.keyservice.entity.Person;
 
-@SessionScoped
-@Stateful
+
+@Startup
+@Singleton
 @Named("initApplication")
 public class InitApplication {
 
@@ -24,6 +27,8 @@ public class InitApplication {
     @Inject
     private AngebotController angebotControl;
     
+
+    @PostConstruct
     public void init() {
 	
 	Adresse lAdresse1 = new Adresse();

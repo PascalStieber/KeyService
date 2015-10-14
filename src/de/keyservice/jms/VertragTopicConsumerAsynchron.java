@@ -20,8 +20,6 @@ public class VertragTopicConsumerAsynchron implements MessageListener {
 
     @Inject
     private Event<AuftragEvent> auftragEvent;
-    @Inject
-    private Event<Auftrag> eve;
 
     @Override
     public void onMessage(Message message) {
@@ -29,10 +27,7 @@ public class VertragTopicConsumerAsynchron implements MessageListener {
 	try {
 	    Auftrag auftrag = new Auftrag();
 	    auftrag = message.getBody(Auftrag.class);
-	    System.out.println("Message wurde asynchron empfangen...." + auftrag.getDoorDetails());
 	    auftragEvent.fire(new AuftragEvent(auftrag));
-	    eve.fire(auftrag);
-
 	} catch (JMSException e) {
 	    e.printStackTrace();
 	}

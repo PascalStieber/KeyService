@@ -69,7 +69,6 @@ public class AuftragWizard {
 	return auftragControl.getLatestAuftrag(this.person);
     }
     
-    
     public void speicherAuftrag(){
 	auftrag.setDatum(new Date());
 	auftrag.setPerson(person);

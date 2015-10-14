@@ -1,7 +1,5 @@
 package de.keyservice.boundary;
 
-import java.security.Principal;
-
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateful;
@@ -13,12 +11,11 @@ import de.keyservice.controller.PersonController;
 import de.keyservice.entity.Person;
 
 @Stateful
-@SessionScoped
 @Named("keyservice")
 public class KeyService {
 
     @Inject
-    PersonController pc;
+    PersonController personControl;
     @Resource
     private SessionContext sessionContext;
 

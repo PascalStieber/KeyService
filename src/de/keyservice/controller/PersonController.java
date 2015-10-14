@@ -1,25 +1,24 @@
 package de.keyservice.controller;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
-import javax.persistence.QueryHint;
 import javax.persistence.TypedQuery;
 
-import de.keyservice.entity.Auftrag;
 import de.keyservice.entity.Person;
 
 @Stateful
 @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-public class PersonController {
+public class PersonController implements Serializable{
 
+    private static final long serialVersionUID = -3994640385430567642L;
+    
     @PersistenceContext(type = PersistenceContextType.EXTENDED, unitName = "ExampleDS")
     private EntityManager entityManager;
 

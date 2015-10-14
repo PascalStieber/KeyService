@@ -16,8 +16,8 @@
 
 		<div id="searchResult">
 			<div id="contentHeader">Erstellen Sie einen neuen Auftrag:</div>
-		
-			
+
+
 			<h:form>
 				<h:dataTable value="#{kundenservice.auftraege}" var="auftrag"
 					styleClass="order-table" headerClass="order-table-header"
@@ -39,6 +39,13 @@
 						<f:facet name="header">Express Service</f:facet>
 	    			#{auftrag.inHurry}
 	    		</h:column>
+					<h:column>
+						<f:facet name="header">Datum</f:facet>
+						<h:outputText value="#{auftrag.datum}">
+							<f:convertDateTime pattern="dd.MM.yyyy HH:mm" />
+						</h:outputText>
+					</h:column>
+
 				</h:dataTable>
 			</h:form>
 

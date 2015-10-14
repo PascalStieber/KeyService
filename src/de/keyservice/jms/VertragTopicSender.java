@@ -23,7 +23,6 @@ public class VertragTopicSender {
     }
     
     public void sendAuftrag(Auftrag pAuftrag){
-	System.out.println(">>>Nachricht wird gesendet...");
 	context.createProducer().send(VertragTopic, pAuftrag);
     }
 }

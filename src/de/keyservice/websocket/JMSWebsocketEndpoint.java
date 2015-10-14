@@ -26,17 +26,17 @@ public class JMSWebsocketEndpoint {
 
     public static void receiveFiredAuftraege(@Observes AuftragEvent pAuftragEvent) {
 	auftraege.add(pAuftragEvent.getAuftrag());
-	System.out.println("Websocket: auftrag wurde gefired ");
+//	System.out.println("Websocket: auftrag wurde gefired ");
     }
 
     @OnOpen
     public void open(Session session) {
-	System.out.println("Open session:" + session.getId());
+//	System.out.println("Open session:" + session.getId());
     }
 
     @OnClose
     public void close(Session session, CloseReason c) {
-	System.out.println("Closing:" + session.getId());
+//	System.out.println("Closing:" + session.getId());
     }
 
     @OnMessage
@@ -44,7 +44,7 @@ public class JMSWebsocketEndpoint {
 	// public Set<Auftrag> onMessage(String message, Session session) {
 	clients.add(session);
 
-	System.out.println("Auftraege vorhanden? " + auftraege.size() + message);
+//	System.out.println("Auftraege vorhanden? " + auftraege.size() + message);
 	// return JMSWebsocketEndpoint.auftraege;
 //	try {
 //	    if (session.isOpen()) {
