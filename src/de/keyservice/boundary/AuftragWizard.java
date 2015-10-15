@@ -44,14 +44,12 @@ public class AuftragWizard {
     String loggedInUser;
 
     @PostConstruct
-    private void init() {
+    public void init() {
 	loggedInUser = sessionContext.getCallerPrincipal().getName();
-	List<Person> lLoggedInPersonen = personControl.findPersonByEmail(loggedInUser);
-	for (Person lPerson : lLoggedInPersonen) {
-	    this.person = lPerson;
-	    for (Adresse lAdresse : lPerson.getAdressen()) {
-		this.adresse = lAdresse;
-	    }
+	person = personControl.findPersonByEmail(loggedInUser);
+	System.out.println(loggedInUser + person.getEmailAdresse());
+	for (Adresse lAdresse : person.getAdressen()) {
+	    this.adresse = lAdresse;
 	}
     }
 

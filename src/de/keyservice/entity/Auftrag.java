@@ -19,7 +19,8 @@ import javax.persistence.Transient;
 import javax.persistence.Version;
 @NamedQueries({
 	@NamedQuery(name = "Auftrag.findLatestAuftrag", query = "SELECT a FROM Auftrag a WHERE a.person = :person ORDER BY a.datum DESC"),
-	@NamedQuery(name = "Auftrag.findAll", query = "SELECT a FROM Auftrag a ORDER BY a.datum DESC") })
+	@NamedQuery(name = "Auftrag.findAll", query = "SELECT a FROM Auftrag a ORDER BY a.datum DESC"),
+	@NamedQuery(name = "Auftrag.findByID", query = "SELECT a FROM Auftrag a WHERE a.id = :id")})
 @Entity
 @Table(name = "Auftrag")
 public class Auftrag implements Cloneable, Serializable {

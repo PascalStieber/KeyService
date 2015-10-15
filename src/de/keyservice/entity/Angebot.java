@@ -12,11 +12,17 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.Version;
 
+@NamedQueries({
+	@NamedQuery(name = "Angebot.findAll", query = "SELECT a FROM Angebot a "),
+	@NamedQuery(name = "Angebot.findByID", query = "SELECT a FROM Angebot a WHERE a.id = :id")})
 @Entity
 @Table(name = "Angebot")
 public class Angebot implements Serializable {
@@ -26,10 +32,6 @@ public class Angebot implements Serializable {
     @Id
     @GeneratedValue
     private long id;
-    private int wizardStatusNR;
-    private boolean inHurry;
-    private String doorDetails;
-    private int doorOption;
     @Version
     private int versionNr;
     @Transient
@@ -37,14 +39,15 @@ public class Angebot implements Serializable {
     @ManyToOne
     private Person person;
     @OneToMany(cascade=CascadeType.ALL, mappedBy="angebot", fetch = FetchType.LAZY)
+    @OrderBy("id DESC")
     private Set<Posten> posten = new HashSet<Posten>();
     @ManyToOne
-    private Person auftrag;
+    private Auftrag auftrag;
     
-    public Person getAuftrag() {
+    public Auftrag getAuftrag() {
         return auftrag;
     }
-    public void setAuftrag(Person auftrag) {
+    public void setAuftrag(Auftrag auftrag) {
         this.auftrag = auftrag;
     }
     public Set<Posten> getPosten() {
@@ -58,30 +61,6 @@ public class Angebot implements Serializable {
     }
     public void setId(long id) {
         this.id = id;
-    }
-    public int getWizardStatusNR() {
-        return wizardStatusNR;
-    }
-    public void setWizardStatusNR(int wizardStatusNR) {
-        this.wizardStatusNR = wizardStatusNR;
-    }
-    public boolean isInHurry() {
-        return inHurry;
-    }
-    public void setInHurry(boolean inHurry) {
-        this.inHurry = inHurry;
-    }
-    public String getDoorDetails() {
-        return doorDetails;
-    }
-    public void setDoorDetails(String doorDetails) {
-        this.doorDetails = doorDetails;
-    }
-    public int getDoorOption() {
-        return doorOption;
-    }
-    public void setDoorOption(int doorOption) {
-        this.doorOption = doorOption;
     }
     public int getVersionNr() {
         return versionNr;

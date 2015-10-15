@@ -1,29 +1,29 @@
 var endpoint = new WebSocket("ws://localhost:8080/KeyService/jmstopicreader");
 
-function receiveNewMessages() {
+function sendMessage() {
 	endpoint.send("hallo welt");
-	// alert("schrott");
 };
+
+
+function openWebsocketSession(){
+	console.log("openWebsocketSession wurde aufgerufen");
+	endpoint.OPEN;
+}
+
 
 endpoint.onopen = function()
 {
-//	alert("websocket: wurde geöffnet");
+	console.log("websocket: wurde geöffnet");
 };
 
 endpoint.onclose = function() {
-//	alert("websocket: wurde geschlossen");
+	console.log("websocket: wurde geschlossen");
 };
 
-var auftraege;
 
 endpoint.onmessage = function(evt) {
-	alert(evt.data);
-	auftraege = evt.data;
-	alert("websocket: nachrichten wurden empfangen");
-	
+	console.log("websocket: wurde geschlossen");
+//	window.location.reload(false);
+	window.location.replace(window.location.pathname);
 };
 
-
-function getAuftraege(){
-	return auftraege;
-};

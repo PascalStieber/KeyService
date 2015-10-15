@@ -45,6 +45,12 @@
 							<f:convertDateTime pattern="dd.MM.yyyy HH:mm" />
 						</h:outputText>
 					</h:column>
+					<h:column>
+						<f:facet name="header">Aktionen</f:facet>
+						<h:commandButton action="#{kundenservice.getAngeboteLink(auftrag)}" value="zu den Angeboten" />
+						
+					</h:column>
+					
 				</h:dataTable>
 			</h:form>
 

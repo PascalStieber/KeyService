@@ -43,11 +43,11 @@ public class PersonController implements Serializable{
 	return null;
     }
     
-    public List<Person> findPersonByEmail(String pEmail) {
+    public Person findPersonByEmail(String pEmail) {
 	entityManager.clear();
 	TypedQuery<Person> query = entityManager.createNamedQuery("Person.findByEmail", Person.class);
 	query.setParameter("emailAdresse", pEmail);
 	List<Person> lPersonListe = query.getResultList();
-	return lPersonListe;
+	return lPersonListe.get(0);
     }
 }

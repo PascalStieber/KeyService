@@ -41,4 +41,11 @@ public class AuftragController implements Serializable {
 	TypedQuery<Auftrag> query = entityManager.createNamedQuery("Auftrag.findAllAuftraege", Auftrag.class);
 	return query.getResultList();
     }
+
+    public Auftrag findAuftragByID(long pID) {
+	TypedQuery<Auftrag> query = entityManager.createNamedQuery("Auftrag.findByID", Auftrag.class);
+	query.setParameter("id", pID);
+	
+	return query.getResultList().get(0);
+    }
 }

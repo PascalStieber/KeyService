@@ -23,7 +23,7 @@
 			
 			<h:form>
 				<h:dataTable id="angebot"
-					value="#{angebotwizard.posten}" var="posten"
+					value="#{angebotwizard.angebot.posten}" var="posten"
 					styleClass="order-table" headerClass="order-table-header"
 					rowClasses="order-table-odd-row,order-table-even-row">
 					<h:column>
@@ -33,16 +33,20 @@
 
 					<h:column>
 						<f:facet name="header">Betrag</f:facet>
-						<h:inputText value="#{posten.betrag}" />						
+						<h:inputText value="#{posten.betrag}">
+						<!-- <f:ajax event="focus" execute="@all" render="@all" listener="angebotwizard.addPosten()"/> -->
+						</h:inputText>
+												
 					</h:column>
 
 					<h:column>
 						<f:facet name="header">Aktionen</f:facet>
-						<h:commandButton action="#{angebotwizard.addPosten()}" value="Posten hinzuf." />
+						
 					</h:column>
 				</h:dataTable>
 			
-			<br/><h:commandButton action="#{angebotwizard.sendeAngebot}" value="Angebot versenden" />
+			<h:commandButton action="#{angebotwizard.addPosten()}" value="Posten hinzuf." />
+			<h:commandButton action="#{angebotwizard.sendeAngebot}" value="Angebot versenden" />
 			</h:form>
 		</div>
 	</ui:define>
