@@ -9,14 +9,16 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 	<ui:define name="content">
-		<f:event type="preRenderView" listener="#{kundenservice.init()}" />
+		<h:outputScript>closeWebsocketSession()</h:outputScript>
+		<f:metadata>
+			 <f:viewAction action="#{kundenservice.onLoad()}" /> 
+		</f:metadata>
+
 		<div id="navigation">
 			<ui:include src="/faces/kunde/navigation.xhtml"></ui:include>
 		</div>
-
 		<div id="searchResult">
 			<div id="contentHeader">Erstellen Sie einen neuen Auftrag:</div>
-
 
 			<h:form>
 				<h:dataTable value="#{kundenservice.auftraege}" var="auftrag"
@@ -47,14 +49,15 @@
 					</h:column>
 					<h:column>
 						<f:facet name="header">Aktionen</f:facet>
-						<h:commandButton action="#{kundenservice.getAngeboteLink(auftrag)}" value="zu den Angeboten" />
-						
+						<h:commandButton
+							action="#{kundenservice.getAngeboteLink(auftrag)}"
+							value="zu den Angeboten" />
+
 					</h:column>
-					
+
 				</h:dataTable>
 			</h:form>
 
 		</div>
-
 	</ui:define>
 </ui:composition>

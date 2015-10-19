@@ -11,7 +11,7 @@ import javax.jms.MessageListener;
 import org.jboss.security.annotation.SecurityDomain;
 
 import de.keyservice.entity.Auftrag;
-import de.keyservice.entity.AuftragEvent;
+import de.keyservice.entity.ContractEvent;
 
 @MessageDriven(activationConfig = { @ActivationConfigProperty(propertyName = "destination", propertyValue = "java:/jms/topic/VertragTopic"),
 	@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Topic") })
@@ -19,7 +19,7 @@ import de.keyservice.entity.AuftragEvent;
 public class VertragTopicConsumerAsynchron implements MessageListener {
 
     @Inject
-    private Event<AuftragEvent> auftragEvent;
+    private Event<ContractEvent> contractEvent;
 
     @Override
     public void onMessage(Message message) {
@@ -27,7 +27,7 @@ public class VertragTopicConsumerAsynchron implements MessageListener {
 	try {
 	    Auftrag auftrag = new Auftrag();
 	    auftrag = message.getBody(Auftrag.class);
-	    auftragEvent.fire(new AuftragEvent(auftrag));
+	    contractEvent.fire(new ContractEvent(auftrag));
 	} catch (JMSException e) {
 	    e.printStackTrace();
 	}

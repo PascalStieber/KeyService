@@ -15,7 +15,7 @@ import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
 import de.keyservice.entity.Auftrag;
-import de.keyservice.entity.AuftragEvent;
+import de.keyservice.entity.ContractEvent;
 
 @Stateful
 @ServerEndpoint(value = "/jmstopicreader")
@@ -24,7 +24,7 @@ public class JMSWebsocketEndpoint {
     static Set<Auftrag> auftraege = new HashSet<Auftrag>();
     static Set<Session> clients = new HashSet<Session>();
 
-    public static void receiveFiredAuftraege(@Observes AuftragEvent pAuftragEvent) {
+    public static void receiveFiredAuftraege(@Observes ContractEvent pAuftragEvent) {
 	auftraege.add(pAuftragEvent.getAuftrag());
 	System.out.println("Websocket: auftrag wurde gefired ");
 	for (Session lClient : clients) {

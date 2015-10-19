@@ -23,7 +23,9 @@ import javax.persistence.Version;
 
 
 @NamedQueries({
-	@NamedQuery(name = "Person.findAll", query = "SELECT p FROM Person p", hints = {@QueryHint(name = "org.hibernate.cacheable", value = "true") }),
+
+    	@NamedQuery(name = "Person.findAll", query = "SELECT p FROM Person p"),
+//	@NamedQuery(name = "Person.findAll", query = "SELECT p FROM Person p", hints = {@QueryHint(name = "org.hibernate.cacheable", value = "true") }),
 	@NamedQuery(name = "Person.findByEmail", query = "SELECT p FROM Person p WHERE p.emailAdresse = :emailAdresse") })
 @Entity
 @Table(name = "Person")

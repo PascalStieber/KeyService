@@ -1,17 +1,20 @@
 package de.keyservice.boundary;
 
 import java.io.Serializable;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+import javax.ejb.SessionContext;
 import javax.ejb.Stateful;
 import javax.enterprise.context.SessionScoped;
-import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import de.keyservice.controller.AuftragController;
 import de.keyservice.entity.Auftrag;
-import de.keyservice.entity.AuftragEvent;
 import de.keyservice.jms.VertragTopicConsumerSynchron;
 
 @Stateful
@@ -23,38 +26,45 @@ public class DienstleisterService implements Serializable {
 
     @Inject
     VertragTopicConsumerSynchron vertragTopicConsumerSynchron;
+    @Resource
+    SessionContext sessionContext;
+    @Inject
+    AuftragController auftragControl;
 
-    private static Set<Auftrag> auftraege = new HashSet<Auftrag>();
+    private List<Auftrag> auftraege = new ArrayList<Auftrag>();
     private Auftrag selectedAuftrag;
-    
+    private String loggedInUser;
+
+    @PostConstruct
     public void init() {
+	loggedInUser = sessionContext.getCallerPrincipal().getName();
+    }
+
+    public void onLoad(){
+	auftraege = auftragControl.findAllAuftraege();
     }
     
-    public String erstelleAngebot(Auftrag pAuftrag){
+    public String erstelleAngebot(Auftrag pAuftrag) {
 	this.setSelectedAuftrag(pAuftrag);
-	return "/faces/service/newAngebot.xhtml?faces-redirect=true&auftragid="+pAuftrag.getId();
+	return "/faces/service/newAngebot.xhtml?faces-redirect=true&auftragid=" + pAuftrag.getId();
     }
 
-//    public void receiveMessages() {
-//	auftraege = vertragTopicConsumerSynchron.getAuftraege();
-//    }
 
-    public void onReceiveNewAuftrag(@Observes AuftragEvent pAuftragEvent) {
-	Auftrag lAuftrag = pAuftragEvent.getAuftrag();
-	try {
-	    auftraege.add((Auftrag)lAuftrag.clone());
-	} catch (CloneNotSupportedException e) {
-	    e.printStackTrace();
-	}
+
+    public String getLoggedInUser() {
+	return loggedInUser;
     }
-    
 
-    public Set<Auftrag> getAuftraege() {
+    public void setLoggedInUser(String loggedInUser) {
+	this.loggedInUser = loggedInUser;
+    }
+
+    public List<Auftrag> getAuftraege() {
 	return auftraege;
     }
 
-    public void setAuftraege(Set<Auftrag> auftraege) {
-	DienstleisterService.auftraege = auftraege;
+    public void setAuftraege(List<Auftrag> auftraege) {
+	this.auftraege = auftraege;
     }
 
     public Auftrag getSelectedAuftrag() {

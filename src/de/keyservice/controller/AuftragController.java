@@ -2,6 +2,7 @@ package de.keyservice.controller;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
@@ -37,15 +38,19 @@ public class AuftragController implements Serializable {
 	return query.getResultList().get(0);
     }
 
-    public List<Auftrag> findAllAuftraege(){
-	TypedQuery<Auftrag> query = entityManager.createNamedQuery("Auftrag.findAllAuftraege", Auftrag.class);
+    public List<Auftrag> findAllAuftraege() {
+	TypedQuery<Auftrag> query = entityManager.createNamedQuery("Auftrag.findAll", Auftrag.class);
 	return query.getResultList();
     }
 
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public Auftrag findAuftragByID(long pID) {
-	TypedQuery<Auftrag> query = entityManager.createNamedQuery("Auftrag.findByID", Auftrag.class);
-	query.setParameter("id", pID);
-	
-	return query.getResultList().get(0);
+	Auftrag lAuftrag = entityManager.find(Auftrag.class, pID);
+//	damit die entity nicht aus dem speicher geholt wird.
+	if (lAuftrag != null) {
+	    entityManager.merge(lAuftrag);
+	    entityManager.refresh(lAuftrag);
+	}
+	return lAuftrag;
     }
 }

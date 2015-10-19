@@ -13,7 +13,7 @@ import javax.jms.JMSException;
 import javax.jms.Topic;
 
 import de.keyservice.entity.Auftrag;
-import de.keyservice.entity.AuftragEvent;
+import de.keyservice.entity.ContractEvent;
 
 
 @Stateless
@@ -28,7 +28,7 @@ public class VertragTopicConsumerSynchron {
     Set<Auftrag> auftraege = new HashSet<Auftrag>();
     
     @Asynchronous
-    public void onReceiveNewAuftrag(@Observes AuftragEvent pAuftragEvent) {
+    public void onReceiveNewAuftrag(@Observes ContractEvent pAuftragEvent) {
     	auftraege.add(pAuftragEvent.getAuftrag());
     }
     

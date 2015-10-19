@@ -8,7 +8,10 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 	<ui:define name="content">
-		<!-- <f:event type="preRenderView" listener="#{dienstleisterservice.init()}" /> -->
+	<h:outputScript>openWebsocketSession()</h:outputScript>
+		<f:metadata>
+			<f:viewAction action="#{dienstleisterservice.onLoad()}" />
+		</f:metadata>
 		<div id="navigation">
 			<ui:include src="/faces/service/navigation.xhtml"></ui:include>
 		</div>
@@ -16,8 +19,6 @@
 			<div id="contentHeader">Erstellen Sie einen neuen Auftrag:</div>
 			<h:form>
 				
-				
-				<!-- <p:poll interval="5" update="auftragliste" /> -->
 
 				<h:dataTable id="auftragliste"
 					value="#{dienstleisterservice.auftraege}" var="auftrag"

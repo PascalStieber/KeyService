@@ -25,7 +25,7 @@ import javax.persistence.Version;
 	@NamedQuery(name = "Angebot.findByID", query = "SELECT a FROM Angebot a WHERE a.id = :id")})
 @Entity
 @Table(name = "Angebot")
-public class Angebot implements Serializable {
+public class Angebot implements Cloneable, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -79,5 +79,9 @@ public class Angebot implements Serializable {
     }
     public void setPerson(Person person) {
         this.person = person;
+    }
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+	return super.clone();
     }
 }

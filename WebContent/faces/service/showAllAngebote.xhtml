@@ -7,15 +7,17 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core">
-
 	<ui:define name="content">
-		
+		<h:outputScript>closeWebsocketSession()</h:outputScript>
+		<f:metadata>
+			<f:viewAction action="#{dienstleisterservice.onLoad()}" />
+		</f:metadata>
 		<div id="navigation">
-			<ui:include src="/faces/kunde/navigation.xhtml"></ui:include>
+			<ui:include src="/faces/service/navigation.xhtml"></ui:include>
 		</div>
 		<div id="searchResult">
 			<div id="contentHeader">Ihre Angebote:</div>
-	
+
 		</div>
 
 	</ui:define>

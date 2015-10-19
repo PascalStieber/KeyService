@@ -16,7 +16,7 @@ import de.keyservice.controller.AuftragController;
 import de.keyservice.controller.PersonController;
 import de.keyservice.entity.Adresse;
 import de.keyservice.entity.Auftrag;
-import de.keyservice.entity.AuftragEvent;
+import de.keyservice.entity.ContractEvent;
 import de.keyservice.entity.Person;
 import de.keyservice.jms.VertragTopicSender;
 
@@ -32,7 +32,7 @@ public class AuftragWizard {
     @Inject
     VertragTopicSender vertragTopicSender;
     @Inject
-    Event<AuftragEvent> auftragEvent;
+    Event<ContractEvent> contractEvent;
 
     @Resource
     private SessionContext sessionContext;
@@ -56,8 +56,8 @@ public class AuftragWizard {
     public String sendeAuftrag() {
 	speicherAuftrag();
 	Auftrag lAuftrag = getLatestAuftrag();
-	// vertragTopicSender.sendAuftrag(lAuftrag);
-	auftragEvent.fire(new AuftragEvent(lAuftrag));
+
+	contractEvent.fire(new ContractEvent(lAuftrag));
 	return "/faces/kunde/showAllAuftraege.xhtml?faces-redirect=true";
     }
 

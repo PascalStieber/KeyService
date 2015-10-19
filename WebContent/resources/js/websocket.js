@@ -4,6 +4,10 @@ function sendMessage() {
 	endpoint.send("hallo welt");
 };
 
+function consoleWebsocketSession(){
+	console.log("closeWebsocketSession wurde aufgerufen");
+	endpoint.close();
+}
 
 function openWebsocketSession(){
 	console.log("openWebsocketSession wurde aufgerufen");
