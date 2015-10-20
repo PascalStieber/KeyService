@@ -2,6 +2,7 @@ package de.keyservice.websocket;
 
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.Set;
 
 import javax.ejb.Stateful;
@@ -22,27 +23,28 @@ import de.keyservice.entity.ContractEvent;
 public class JMSWebsocketEndpoint {
 
     static Set<Auftrag> auftraege = new HashSet<Auftrag>();
-    static Set<Session> clients = new HashSet<Session>();
+    // static Set<Session> clients = new HashSet<Session>();
+    static LinkedHashMap<String, Session> clients = new LinkedHashMap<>();
 
-    public static void receiveFiredAuftraege(@Observes ContractEvent pAuftragEvent) {
-	auftraege.add(pAuftragEvent.getAuftrag());
+    public static void receiveFiredAuftraege(@Observes ContractEvent pAuftragEvent) throws IOException {
 	System.out.println("Websocket: auftrag wurde gefired ");
-	for (Session lClient : clients) {
-	    System.out.println(lClient.getId());
-	    if (lClient.isOpen()) {
-		try {
-		    lClient.getBasicRemote().sendText("Antwort von Server");
-		    System.out.println("client wird benachrichtigt");
-		} catch (IOException e) {
-		    e.printStackTrace();
-		}
+	Session lSession = clients.get(pAuftragEvent.getPerson().getEmailAdresse());
+	System.out.println(clients.get(pAuftragEvent.getPerson().getEmailAdresse()));
+	
+
+	if (lSession != null) {
+	    if (pAuftragEvent.getAngebot() != null) {
+		//sende an alle service 
+		lSession.getBasicRemote().sendText("message:angebot!");
+	    } else if (!clients.isEmpty()) {
+		//sende an kunden
+		lSession.getBasicRemote().sendText("message:auftrag!");
 	    }
 	}
     }
 
     @OnOpen
     public void open(Session session) {
-	clients.add(session);
 	System.out.println("Open session:" + session.getId());
     }
 
@@ -52,18 +54,9 @@ public class JMSWebsocketEndpoint {
     }
 
     @OnMessage
-    public String onMessage(String message, Session session) throws EncodeException {
-	System.out.println("Auftraege vorhanden? " + auftraege.size() + message);
-	try {
-	    if (session.isOpen()) {
-		session.getBasicRemote().sendText("Antwort von Server");
-	    }
-	} catch (IOException e) {
-	    e.printStackTrace();
-	}
-	return "hallo zurueck";
-
-	//
-
+    public void onMessage(String message, Session session) throws EncodeException {
+	clients.put(message.split(":")[0], session);
+	System.out.println("empfange " + message );
+	
     }
 }

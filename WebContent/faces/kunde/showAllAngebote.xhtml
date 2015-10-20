@@ -9,34 +9,37 @@
 	xmlns:f="http://java.sun.com/jsf/core">
 	<ui:define name="content">
 		<h:outputScript>openWebsocketSession()</h:outputScript>
-			<f:metadata>
-				<f:viewParam id="auftragid" name="auftragid"
-					value="#{kundenservice.auftragID}" required="true" />
-				<f:viewAction action="#{kundenservice.onLoad()}" />
-			</f:metadata>
-			<div id="navigation">
-				<ui:include src="/faces/kunde/navigation.xhtml"></ui:include>
-			</div>
-			<div id="searchResult">
-				<div id="contentHeader">Ihre Angebote:</div>
-				<h:form>
-					<h:dataTable id="angebotsliste" value="#{kundenservice.auftrag.angebote}"
-						var="angebot" styleClass="order-table"
-						headerClass="order-table-header"
-						rowClasses="order-table-odd-row,order-table-even-row">
+		<f:metadata>
+			<f:viewParam id="auftragid" name="auftragid"
+				value="#{kundenservice.auftragID}" required="true" />
+			<f:viewAction action="#{kundenservice.onLoad()}" />
+		</f:metadata>
+		<div id="navigation">
+			<ui:include src="/faces/kunde/navigation.xhtml"></ui:include>
+		</div>
+		<div id="searchResult">
+			<div id="contentHeader">Ihre Angebote:</div>
+			<h:form>
+			<h:inputHidden id="loggedInUser" value="#{kundenservice.loggedInUser}" />
+			<h:inputHidden id="loggedInRole" value="#{kundenservice.loggedInRole}" />
+			
+				<h:dataTable id="angebotsliste"
+					value="#{kundenservice.auftrag.angebote}" var="angebot"
+					styleClass="order-table" headerClass="order-table-header"
+					rowClasses="order-table-odd-row,order-table-even-row">
 
-						<h:column>
-							<f:facet name="header">ID</f:facet>
+					<h:column>
+						<f:facet name="header">ID</f:facet>
 	    			#{angebot.id}
 	    			</h:column>
-						
-						<h:column>
-							<h:commandButton
-								action="#{kundenservice.akzeptiereAngebot(angebot)}"
-								value="Angebot akzeptieren" />
-						</h:column>
-					</h:dataTable>
-				</h:form>
-			</div>
+
+					<h:column>
+						<h:commandButton
+							action="#{kundenservice.akzeptiereAngebot(angebot)}"
+							value="Angebot akzeptieren" />
+					</h:column>
+				</h:dataTable>
+			</h:form>
+		</div>
 	</ui:define>
 </ui:composition>

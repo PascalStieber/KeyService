@@ -11,12 +11,21 @@ function consoleWebsocketSession(){
 
 function openWebsocketSession(){
 	console.log("openWebsocketSession wurde aufgerufen");
+
 	endpoint.OPEN;
+	alert(hallo);
+
+	endpoint.send("messafgw");
+	
 }
 
 
 endpoint.onopen = function()
 {
+	var user =  document.getElementById('loggedInUser').value
+	var role = document.getElementById('loggedInRole').value
+	var message =  String.concat(user, ":", role);
+	endpoint.send("halloooo2");
 	console.log("websocket: wurde geöffnet");
 };
 
@@ -26,7 +35,7 @@ endpoint.onclose = function() {
 
 
 endpoint.onmessage = function(evt) {
-	console.log("websocket: wurde geschlossen");
+	console.log("websocket: nachricht wurde empfangen");
 //	window.location.reload(false);
 	window.location.replace(window.location.pathname);
 };

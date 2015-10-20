@@ -44,11 +44,22 @@ public class KundenService implements Serializable {
     Set<Angebot> angebote = new HashSet<Angebot>();
     long auftragID = 0;
     String loggedInUser;
+    String loggedInRole;
+
+
 
     @PostConstruct
     public void init() {
 	loggedInUser = sessionContext.getCallerPrincipal().getName();
 	person = personControl.findPersonByEmail(loggedInUser);
+	
+	if(sessionContext.isCallerInRole("AdminUser")){
+	    loggedInRole = "adminUser";
+	}else if (sessionContext.isCallerInRole("CustomerUser")) {
+	    loggedInRole = "CustomerUser";
+	}else if (sessionContext.isCallerInRole("ServiceUser")) {
+	    loggedInRole = "ServiceUser";
+	}
     }
 
     public void onLoad() {
@@ -65,21 +76,10 @@ public class KundenService implements Serializable {
     }
 
     public void onreceiveNewAngebote(@Observes ContractEvent pContractEvent) {
+//
+//	System.out.println(">>>>>>" + loggedInUser);
+//	auftrag = auftragControl.findAuftragByID(auftragID);
 
-	System.out.println(">>>>>>" + loggedInUser);
-	auftrag = auftragControl.findAuftragByID(auftragID);
-
-	// // is ContractEvent relevant fuer angemeldeten benutzer
-	// if (pContractEvent.getAngebot() != null) {
-	//// if
-	// (loggedInUser.equals(pContractEvent.getPerson().getEmailAdresse())) {
-	// try {
-	// angebote.add((Angebot) pContractEvent.getAngebot().clone());
-	// } catch (CloneNotSupportedException e) {
-	// e.printStackTrace();
-	// }
-	//// }
-	// }
     }
 
     public Set<Angebot> getAngebote() {
@@ -89,16 +89,6 @@ public class KundenService implements Serializable {
 
     public void setAngebote(Set<Angebot> angebote) {
 	this.angebote = angebote;
-    }
-
-    public String getLoggedInUser() {
-	String loggedInUser = sessionContext.getCallerPrincipal().getName();
-	return loggedInUser;
-    }
-
-    public String getLoggedInRole() {
-	String loggedInUser = sessionContext.getCallerPrincipal().getName();
-	return loggedInUser;
     }
 
     public long getAuftragID() {
@@ -143,6 +133,18 @@ public class KundenService implements Serializable {
 
     public void setLoggedInUser(String loggedInUser) {
 	this.loggedInUser = loggedInUser;
+    }
+    public void setLoggedInRole(String loggedInRole) {
+        this.loggedInRole = loggedInRole;
+    }
+    public String getLoggedInUser() {
+	String loggedInUser = sessionContext.getCallerPrincipal().getName();
+	return loggedInUser;
+    }
+
+    public String getLoggedInRole() {
+	String loggedInUser = sessionContext.getCallerPrincipal().getName();
+	return loggedInUser;
     }
 
 }

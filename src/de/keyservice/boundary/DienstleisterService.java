@@ -34,10 +34,19 @@ public class DienstleisterService implements Serializable {
     private List<Auftrag> auftraege = new ArrayList<Auftrag>();
     private Auftrag selectedAuftrag;
     private String loggedInUser;
+    private String loggedInRole;
 
     @PostConstruct
     public void init() {
 	loggedInUser = sessionContext.getCallerPrincipal().getName();
+	
+	if(sessionContext.isCallerInRole("AdminUser")){
+	    loggedInRole = "adminUser";
+	}else if (sessionContext.isCallerInRole("CustomerUser")) {
+	    loggedInRole = "CustomerUser";
+	}else if (sessionContext.isCallerInRole("ServiceUser")) {
+	    loggedInRole = "ServiceUser";
+	}
     }
 
     public void onLoad(){
@@ -49,7 +58,13 @@ public class DienstleisterService implements Serializable {
 	return "/faces/service/newAngebot.xhtml?faces-redirect=true&auftragid=" + pAuftrag.getId();
     }
 
+    public String getLoggedInRole() {
+        return loggedInRole;
+    }
 
+    public void setLoggedInRole(String loggedInRole) {
+        this.loggedInRole = loggedInRole;
+    }
 
     public String getLoggedInUser() {
 	return loggedInUser;
