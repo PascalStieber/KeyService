@@ -20,7 +20,7 @@ import de.keyservice.entity.ContractEvent;
 public class VertragTopicConsumerSynchron {
 
     
-    @Resource(mappedName = "java:/jms/topic/VertragTopic")
+    @Resource(mappedName = "java:/jms/topic/ContractTopic")
     Topic VertragTopic;
     @Inject
     JMSContext context;

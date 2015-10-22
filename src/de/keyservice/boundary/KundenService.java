@@ -12,10 +12,12 @@ import javax.annotation.Resource;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateful;
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import de.keyservice.controller.AngebotController;
 import de.keyservice.controller.AuftragController;
 import de.keyservice.controller.PersonController;
 import de.keyservice.entity.Adresse;
@@ -36,7 +38,11 @@ public class KundenService implements Serializable {
     PersonController personControl;
     @Inject
     AuftragController auftragControl;
-
+    @Inject
+    AngebotController angebotControl;
+    @Inject
+    Event<ContractEvent> contractEvent;
+    
     Person person = new Person();
     Adresse adresse = new Adresse();
     Auftrag auftrag;
@@ -68,18 +74,13 @@ public class KundenService implements Serializable {
     }
 
     public void akzeptiereAngebot(Angebot angebot) {
-
+	angebot.setAccepted(true);
+	angebotControl.updateAngebot(angebot);
+	contractEvent.fire(new ContractEvent(auftrag, angebot));
     }
 
     public String getAngeboteLink(Auftrag pAuftrag) {
 	return "showAllAngebote.xhtml?faces-redirect=true&auftragid=" + pAuftrag.getId();
-    }
-
-    public void onreceiveNewAngebote(@Observes ContractEvent pContractEvent) {
-//
-//	System.out.println(">>>>>>" + loggedInUser);
-//	auftrag = auftragControl.findAuftragByID(auftragID);
-
     }
 
     public Set<Angebot> getAngebote() {
@@ -131,20 +132,22 @@ public class KundenService implements Serializable {
 	this.auftrag = auftrag;
     }
 
-    public void setLoggedInUser(String loggedInUser) {
-	this.loggedInUser = loggedInUser;
-    }
-    public void setLoggedInRole(String loggedInRole) {
-        this.loggedInRole = loggedInRole;
-    }
     public String getLoggedInUser() {
-	String loggedInUser = sessionContext.getCallerPrincipal().getName();
-	return loggedInUser;
+        return loggedInUser;
+    }
+
+    public void setLoggedInUser(String loggedInUser) {
+        this.loggedInUser = loggedInUser;
     }
 
     public String getLoggedInRole() {
-	String loggedInUser = sessionContext.getCallerPrincipal().getName();
-	return loggedInUser;
+        return loggedInRole;
     }
+
+    public void setLoggedInRole(String loggedInRole) {
+        this.loggedInRole = loggedInRole;
+    }
+
+
 
 }

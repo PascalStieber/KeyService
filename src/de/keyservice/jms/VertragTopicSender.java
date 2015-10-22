@@ -14,7 +14,7 @@ public class VertragTopicSender {
     @Inject
     JMSContext context;
 
-    @Resource(mappedName = "java:/jms/topic/VertragTopic")
+    @Resource(mappedName = "java:/jms/topic/ContractTopic")
     Destination VertragTopic;
 
     public void sendMessage(String message) {

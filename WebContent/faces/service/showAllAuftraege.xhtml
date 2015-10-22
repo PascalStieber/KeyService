@@ -8,22 +8,25 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 	<ui:define name="content">
-		<h:outputScript>openWebsocketSession()</h:outputScript>
 		<f:metadata>
 			<f:viewAction action="#{dienstleisterservice.onLoad()}" />
 		</f:metadata>
-		
-		
-		
+
+
+
 		<div id="navigation">
 			<ui:include src="/faces/service/navigation.xhtml"></ui:include>
 		</div>
 		<div id="searchResult">
 			<div id="contentHeader">Erstellen Sie einen neuen Auftrag:</div>
+				<h:form id="userForm">
+					<h:inputHidden id="loggedInUser"
+						value="#{dienstleisterservice.loggedInUser}" />
+					<h:inputHidden id="loggedInRole"
+						value="#{dienstleisterservice.loggedInRole}" />
+				</h:form>
 			<h:form>
-				<h:inputHidden id="loggedInUser" value="#{dienstleisterservice.loggedInUser}" />
-				<h:inputHidden id="loggedInRole" value="#{dienstleisterservice.loggedInRole}" />
-				
+			
 				<h:dataTable id="auftragliste"
 					value="#{dienstleisterservice.auftraege}" var="auftrag"
 					styleClass="order-table" headerClass="order-table-header"

@@ -8,51 +8,54 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 	<ui:define name="content">
-		
-			<h:outputScript>closeWebsocketSession()</h:outputScript>
-			<f:metadata>
-				<f:viewParam id="auftragid" name="auftragid"
-					value="#{angebotwizard.auftragID}" required="true" />
-				<f:viewAction action="#{angebotwizard.onLoad}" />
-			</f:metadata>
+		<f:metadata>
+			<f:viewParam id="auftragid" name="auftragid"
+				value="#{angebotwizard.auftragID}" required="true" />
+			<f:viewAction action="#{angebotwizard.onLoad}" />
+		</f:metadata>
 
-			<div id="navigation">
-				<ui:include src="/faces/service/navigation.xhtml"></ui:include>
-			</div>
-			<div id="searchResult">
-				<div id="contentHeader">Erstellen Sie ein neues Angebot:</div>
+		<div id="navigation">
+			<ui:include src="/faces/service/navigation.xhtml"></ui:include>
+		</div>
+		<div id="searchResult">
+			<div id="contentHeader">Erstellen Sie ein neues Angebot:</div>
 
-				<ui:include src="/faces/service/auftrag.xhtml" />
+			<ui:include src="/faces/service/auftrag.xhtml" />
+			<h:form id="userForm">
+				<h:inputHidden id="loggedInUser"
+					value="#{dienstleisterservice.loggedInUser}" />
+				<h:inputHidden id="loggedInRole"
+					value="#{dienstleisterservice.loggedInRole}" />
+			</h:form>
+			<h:form>
+				<h:dataTable id="angebot" value="#{angebotwizard.angebot.posten}"
+					var="posten" styleClass="order-table"
+					headerClass="order-table-header"
+					rowClasses="order-table-odd-row,order-table-even-row">
+					<h:column>
+						<f:facet name="header">Bezeichnung</f:facet>
+						<h:inputText value="#{posten.bezeichnung}" />
+					</h:column>
 
-				<h:form>
-					<h:dataTable id="angebot" value="#{angebotwizard.angebot.posten}"
-						var="posten" styleClass="order-table"
-						headerClass="order-table-header"
-						rowClasses="order-table-odd-row,order-table-even-row">
-						<h:column>
-							<f:facet name="header">Bezeichnung</f:facet>
-							<h:inputText value="#{posten.bezeichnung}" />
-						</h:column>
+					<h:column>
+						<f:facet name="header">Betrag</f:facet>
+						<h:inputText value="#{posten.betrag}">
+							<!-- <f:ajax event="focus" execute="@all" render="@all" listener="angebotwizard.addPosten()"/> -->
+						</h:inputText>
 
-						<h:column>
-							<f:facet name="header">Betrag</f:facet>
-							<h:inputText value="#{posten.betrag}">
-								<!-- <f:ajax event="focus" execute="@all" render="@all" listener="angebotwizard.addPosten()"/> -->
-							</h:inputText>
+					</h:column>
 
-						</h:column>
+					<h:column>
+						<f:facet name="header">Aktionen</f:facet>
 
-						<h:column>
-							<f:facet name="header">Aktionen</f:facet>
+					</h:column>
+				</h:dataTable>
 
-						</h:column>
-					</h:dataTable>
-
-					<h:commandButton action="#{angebotwizard.addPosten()}"
-						value="Posten hinzuf." />
-					<h:commandButton action="#{angebotwizard.sendeAngebot()}"
-						value="Angebot versenden" />
-				</h:form>
-			</div>
+				<h:commandButton action="#{angebotwizard.addPosten()}"
+					value="Posten hinzuf." />
+				<h:commandButton action="#{angebotwizard.sendeAngebot()}"
+					value="Angebot versenden" />
+			</h:form>
+		</div>
 	</ui:define>
 </ui:composition>

@@ -20,9 +20,8 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.Version;
 
-@NamedQueries({
-	@NamedQuery(name = "Angebot.findAll", query = "SELECT a FROM Angebot a "),
-	@NamedQuery(name = "Angebot.findByID", query = "SELECT a FROM Angebot a WHERE a.id = :id")})
+@NamedQueries({ @NamedQuery(name = "Angebot.findAll", query = "SELECT a FROM Angebot a "),
+	@NamedQuery(name = "Angebot.findByID", query = "SELECT a FROM Angebot a WHERE a.id = :id") })
 @Entity
 @Table(name = "Angebot")
 public class Angebot implements Cloneable, Serializable {
@@ -38,50 +37,75 @@ public class Angebot implements Cloneable, Serializable {
     private boolean editable;
     @ManyToOne
     private Person person;
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="angebot", fetch = FetchType.LAZY)
+    private boolean isAccepted;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "angebot", fetch = FetchType.LAZY)
     @OrderBy("id DESC")
     private Set<Posten> posten = new HashSet<Posten>();
     @ManyToOne
     private Auftrag auftrag;
-    
+
     public Auftrag getAuftrag() {
-        return auftrag;
+	return auftrag;
     }
+
     public void setAuftrag(Auftrag auftrag) {
-        this.auftrag = auftrag;
+	this.auftrag = auftrag;
     }
+
     public Set<Posten> getPosten() {
-        return posten;
+	return posten;
     }
+
     public void addPosten(Posten pPosten) {
-        this.posten.add(pPosten);
+	this.posten.add(pPosten);
     }
+
     public long getId() {
-        return id;
+	return id;
     }
+
     public void setId(long id) {
-        this.id = id;
+	this.id = id;
     }
+
     public int getVersionNr() {
-        return versionNr;
+	return versionNr;
     }
+
     public void setVersionNr(int versionNr) {
-        this.versionNr = versionNr;
+	this.versionNr = versionNr;
     }
+
     public boolean isEditable() {
-        return editable;
+	return editable;
     }
+
     public void setEditable(boolean editable) {
-        this.editable = editable;
+	this.editable = editable;
     }
+
     public Person getPerson() {
-        return person;
+	return person;
     }
+
     public void setPerson(Person person) {
-        this.person = person;
+	this.person = person;
     }
+
     @Override
     public Object clone() throws CloneNotSupportedException {
 	return super.clone();
+    }
+
+    public boolean isAccepted() {
+	return isAccepted;
+    }
+
+    public boolean getIsAccepted() {
+	return isAccepted;
+    }
+
+    public void setAccepted(boolean isAccepted) {
+	this.isAccepted = isAccepted;
     }
 }

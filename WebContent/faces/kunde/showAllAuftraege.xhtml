@@ -9,9 +9,8 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 	<ui:define name="content">
-		<h:outputScript>closeWebsocketSession()</h:outputScript>
 		<f:metadata>
-			 <f:viewAction action="#{kundenservice.onLoad()}" /> 
+			<f:viewAction action="#{kundenservice.onLoad()}" />
 		</f:metadata>
 
 		<div id="navigation">
@@ -19,7 +18,12 @@
 		</div>
 		<div id="searchResult">
 			<div id="contentHeader">Erstellen Sie einen neuen Auftrag:</div>
-
+		<h:form id="userForm">
+			<h:inputHidden id="loggedInUser"
+				value="#{dienstleisterservice.loggedInUser}" />
+			<h:inputHidden id="loggedInRole"
+				value="#{dienstleisterservice.loggedInRole}" />
+		</h:form>
 			<h:form>
 				<h:dataTable value="#{kundenservice.auftraege}" var="auftrag"
 					styleClass="order-table" headerClass="order-table-header"

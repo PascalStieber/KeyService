@@ -8,6 +8,8 @@ import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.jms.Destination;
+import javax.jms.JMSContext;
 
 import de.keyservice.controller.AngebotController;
 import de.keyservice.controller.AuftragController;
@@ -27,12 +29,12 @@ public class AngebotWizard {
     Event<ContractEvent> contractEvent;
     @Inject
     AngebotController angebotControl;
-    @Resource
-    private SessionContext sessionContext;
     @Inject
     PersonController personControl;
     @Inject
     AuftragController auftragControl;
+    @Resource
+    private SessionContext sessionContext;
 
     private Auftrag auftrag = new Auftrag();
     private Posten posten = new Posten();
@@ -66,20 +68,21 @@ public class AngebotWizard {
 	return "/faces/service/showAllAuftraege.xhtml";
     }
 
-    public void speicherAngebot() {
+    public String speicherAngebot() {
+	angebot.setAccepted(false);
 	angebot.setAuftrag(auftrag);
 	angebot.setPerson(person);
 	angebotControl.saveAngebot(angebot);
+	resetForNewAngebot();
+	return "faces/service/showAllAuftraege.xhtml?faces-redirect=true";
     }
 
     // für das nächste Angebot alles zurücksetzen
     public void resetForNewAngebot() {
 	angebot = new Angebot();
 	posten = new Posten();
-	auftrag = new Auftrag();
 	angebot.addPosten(posten);
 	posten.setAngebot(angebot);
-	angebotControl.saveAngebot(angebot);
     }
 
     public Auftrag getAuftrag() {

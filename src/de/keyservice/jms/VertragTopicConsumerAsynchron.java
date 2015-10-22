@@ -13,7 +13,7 @@ import org.jboss.security.annotation.SecurityDomain;
 import de.keyservice.entity.Auftrag;
 import de.keyservice.entity.ContractEvent;
 
-@MessageDriven(activationConfig = { @ActivationConfigProperty(propertyName = "destination", propertyValue = "java:/jms/topic/VertragTopic"),
+@MessageDriven(activationConfig = { @ActivationConfigProperty(propertyName = "destination", propertyValue = "java:/jms/topic/ContractTopic"),
 	@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Topic") })
 @SecurityDomain("ServiceUser")
 public class VertragTopicConsumerAsynchron implements MessageListener {

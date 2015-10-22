@@ -10,6 +10,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 
 import de.keyservice.entity.Angebot;
+import de.keyservice.entity.Auftrag;
 
 @Stateful
 @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
@@ -39,4 +40,6 @@ public class AngebotController implements Serializable {
     public Angebot findAngebotByID(long pID) {
 	return entityManager.find(Angebot.class, pID);
     }
+    
+
 }

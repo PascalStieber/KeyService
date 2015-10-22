@@ -9,14 +9,18 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 	<ui:define name="content">
-	<h:outputScript>closeWebsocketSession()</h:outputScript>
 		<div id="navigation">
 			<ui:include src="/faces/kunde/navigation.xhtml"></ui:include>
 		</div>
-		
+
 		<div id="searchResult">
 			<div id="contentHeader">Ihre Aufträge:</div>
-
+		<h:form id="userForm">
+			<h:inputHidden id="loggedInUser"
+				value="#{dienstleisterservice.loggedInUser}" />
+			<h:inputHidden id="loggedInRole"
+				value="#{dienstleisterservice.loggedInRole}" />
+		</h:form>
 			<h:form>
 				<h:selectOneRadio value="#{auftragwizard.auftrag.doorOption}">
 					<p>Schildern Sie ihren Vorfall:</p>
@@ -87,7 +91,7 @@
 					<h:inputText value="#{auftragwizard.adresse.ort}" label="Stadt"></h:inputText>
 				</h:panelGroup>
 				<br />
-				<h:commandButton action="#{auftragwizard.sendeAuftrag()}" 
+				<h:commandButton action="#{auftragwizard.sendeAuftrag()}"
 					value="Auftrag absenden" />
 
 			</h:form>
